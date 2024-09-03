@@ -15,8 +15,8 @@ const Parallel = () => {
                 Load more
             </button>
 
-            {userIds.map((id) => (
-                <h1 key={id}>{id}</h1>
+            {userIds.map((id,index) => (
+                <h1 key={index}>{id}</h1>
             ))}
         </div>
     );
