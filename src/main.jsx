@@ -16,23 +16,7 @@ export const queryClient = new QueryClient();
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App />,
-    },
-    {
-        path: '/paginated',
-        element: <Products />,
-    },
-    {
-        path: 'parallel',
         element: <Parallel />,
-    },
-    {
-        path: 'optimistic',
-        element: <Optimistic />,
-    },
-    {
-        path: 'dependant',
-        element: <Dependant />,
     },
 ]);
 
