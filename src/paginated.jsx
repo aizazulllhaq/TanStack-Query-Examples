@@ -23,7 +23,7 @@ function Products() {
       return response.data;
     },
     staleTime: 20000,
-});
+  });
 
   const { data: products } = useQuery({
     queryKey: ["products", limit, skip, q, category],
@@ -48,7 +48,10 @@ function Products() {
   return (
     <>
       <div className="bg-gray-100">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
+          <h1 className="text-2xl text-center font-semibold">
+            Paginated in TenStack
+          </h1>
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               My store
@@ -64,7 +67,7 @@ function Products() {
                     pre.delete("category");
                     return pre;
                   });
-                }, 1000)}
+                }, 500)}
                 type="text"
                 name="price"
                 id="price"
