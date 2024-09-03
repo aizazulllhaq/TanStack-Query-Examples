@@ -1,25 +1,55 @@
-import React from 'react';
-import { useQuery, useQueries } from '@tanstack/react-query';
+import { useState } from "react";
+import { useQueries } from "@tanstack/react-query";
+import axios from "axios";
 
 const Parallel = () => {
-    const [userIds, setUserIds] = React.useState([1]);
+  const [userIds, setUserIds] = useState([1, 2]);
 
-    return (
-        <div>
-            <button
-                onClick={() =>
-                    setUserIds((prev) => {
-                        return [...prev, Date.now()];
-                    })
-                }>
-                Load more
-            </button>
+  // Issue 1 : Cannot be use inside callback.
+  // Issue 2 : Static okay , but dynamic Query not allowed in there. -> Solution = useQueries();
+  //   userIds.forEach((id) => {
+  //     const userQuery = useQuery({
+  //       queryKey: ["user", id],
+  //       queryFn: async () => {
+  //         const response = await axios.get(`https://dummyjson.com/users/${id}`);
+  //         return response.data;
+  //       },
+  //     });
+  //   });
 
-            {userIds.map((id,index) => (
-                <h1 key={index}>{id}</h1>
-            ))}
-        </div>
-    );
+  const userQueries = useQueries({
+    queries: userIds.map((id) => {
+      return {
+        queryKey: ["user", id],
+        queryFn: async () => {
+          const response = await axios.get(`https://dummyjson.com/users/${id}`);
+          return response.data;
+        },
+      };
+    }),
+  });
+
+
+  return (
+    <div>
+      <button
+        onClick={() =>
+          setUserIds((prev) => {
+            return [...prev,prev];
+          })
+        }
+      >
+        Load more
+      </button>
+
+      {userQueries?.map((query, index) => (
+        <>
+          <h1>{query?.data?.firstName}</h1>
+          <span>{query?.data?.email}</span>
+        </>
+      ))}
+    </div>
+  );
 };
 
 export default Parallel;
